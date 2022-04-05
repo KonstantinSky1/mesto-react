@@ -2,7 +2,7 @@ import React from 'react';
 import api from '../utils/Api';
 import Card from './Card';
 
-function Main(props) {
+function Main({ onAddPlace, onCardClick, onEditAvatar, onEditProfile }) {
   const [userName, setUserName] = React.useState('');
   const [userDescription, setUserDescription] = React.useState('');
   const [userAvatar, setUserAvatar] = React.useState('');
@@ -27,7 +27,7 @@ function Main(props) {
           className="profile__image"
           type="button"
           aria-label="открыть окно редактирования аватара профиля"
-          onClick={props.onEditAvatar}
+          onClick={onEditAvatar}
           style={{ backgroundImage: `url(${userAvatar})` }}
         >
         </button>
@@ -40,7 +40,7 @@ function Main(props) {
               className="profile__edit-popup"
               type="button"
               aria-label="открыть окно редактирования данных профиля"
-              onClick={props.onEditProfile}
+              onClick={onEditProfile}
             >
             </button>
           </div>
@@ -52,7 +52,7 @@ function Main(props) {
           className="profile__button-plus"
           type="button"
           aria-label="кнопка добавления новой карточки"
-          onClick={props.onAddPlace}
+          onClick={onAddPlace}
         >
         </button>
       </section>
@@ -62,7 +62,7 @@ function Main(props) {
           {cards.map(item =>
             <Card
               card={item}
-              onCardClick={props.onCardClick}
+              onCardClick={onCardClick}
               key={item._id}
             />
           )}
