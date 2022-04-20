@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-  const [name, setName] = React.useState('');
-  const [link, setLink] = React.useState('');
+  const [name, setName] = useState('');
+  const [link, setLink] = useState('');
 
   function handleChangeName(e) {
     setName(e.target.value);
@@ -16,12 +16,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    onAddPlace(
-      {
-        name: name,
-        link: link
-      }
-    );
+    onAddPlace({ name, link });
   }
 
   return (
@@ -36,6 +31,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       <input
         className="popup__input popup__input_name_card"
         onChange={handleChangeName}
+        value={name}
         id="cardname"
         type="text"
         name="cardName"
@@ -49,6 +45,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       <input
         className="popup__input popup__input_name_link"
         onChange={handleChangeLink}
+        value={link}
         id="cardlink"
         type="url"
         name="cardLink"
