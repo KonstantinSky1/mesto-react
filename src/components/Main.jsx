@@ -1,23 +1,9 @@
 import React from 'react';
-import api from '../utils/Api';
 import Card from './Card';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function Main({ onAddPlace, onCardClick, onEditAvatar, onEditProfile }) {
-  const [userName, setUserName] = React.useState('');
-  const [userDescription, setUserDescription] = React.useState('');
-  const [userAvatar, setUserAvatar] = React.useState('');
-  const [cards, setCards] = React.useState([]);
-
-  React.useEffect(() => {
-    Promise.all([api.getProfile(), api.getInitialCards()])
-      .then(([userData, cardsData]) => {
-        setUserName(userData.name);
-        setUserDescription(userData.about);
-        setUserAvatar(userData.avatar)
-        setCards(cardsData);
-    })
-    .catch(err => console.log(err));
-  }, []);
+function Main({ onAddPlace, onCardClick, onEditAvatar, onEditProfile, cards, onCardLike, onCardDelete }) {
+  const currentUser = React.useContext(CurrentUserContext);
 
   return (
     <main className="content container">
@@ -28,13 +14,13 @@ function Main({ onAddPlace, onCardClick, onEditAvatar, onEditProfile }) {
           type="button"
           aria-label="открыть окно редактирования аватара профиля"
           onClick={onEditAvatar}
-          style={{ backgroundImage: `url(${userAvatar})` }}
+          style={{ backgroundImage: `url(${currentUser.avatar})` }}
         >
         </button>
         <div className="profile__content">
           <div className="profile__content-element-flex">
             <h1 className="profile__title">
-              {userName}
+              {currentUser.name}
             </h1>
             <button
               className="profile__edit-popup"
@@ -45,7 +31,7 @@ function Main({ onAddPlace, onCardClick, onEditAvatar, onEditProfile }) {
             </button>
           </div>
           <p className="profile__subtitle">
-            {userDescription}
+            {currentUser.about}
           </p>
         </div>
         <button
@@ -64,6 +50,8 @@ function Main({ onAddPlace, onCardClick, onEditAvatar, onEditProfile }) {
               card={item}
               onCardClick={onCardClick}
               key={item._id}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
             />
           )}
         </ul>
